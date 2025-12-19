@@ -10,11 +10,25 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Install dependencies
-        run: sudo apt-get install -y libgmp-dev
-      - name: Build frobby (make)
-        run: make
-      - name: Check frobby (make)
-        run: make test
+        run: |
+          sudo apt-get install -y libgmp-dev texlive-latex-base doxygen \
+            texlive-latex-recommended texlive-latex-extra graphviz
+      - name: Build frobby (autotools)
+        run: |
+          mkdir -p build/autotools
+          cd build/autotools
+          ../../autogen.sh
+          ../../configure
+          make
+      - name: Check frobby (autotools)
+        run: |
+          cd build/autotools
+          make fullTest
+      - name: Build documentation
+        run: |
+          cd build/autotools
+          make doc
+          make doxygen-pdf
       - name: Clean up
         run: make clean
       - name: Build frobby (cmake)
