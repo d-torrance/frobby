@@ -26,7 +26,7 @@ jobs:
                echo "$(brew --prefix llvm)/bin"           >> $GITHUB_PATH
                SDKROOT=$(xcrun --show-sdk-path)
                echo CXXFLAGS=-"nostdinc++ -isystem $SDKROOT/usr/include/c++/v1 -isystem $SDKROOT/usr/include -I$(brew --prefix)/include" >> $GITHUB_ENV
-               echo LDFLAGS"=-stdlib=libc++ -L$(brew --prefix)/lib -L$(brew --prefix llvm)/lib -lc++ -lc++abi"      >> $GITHUB_ENV
+               echo LDFLAGS="-L$(brew --prefix)/lib"      >> $GITHUB_ENV
                echo "CXX=clang++"                         >> $GITHUB_ENV
           fi
       - name: Build frobby
