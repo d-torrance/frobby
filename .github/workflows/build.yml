@@ -2,6 +2,7 @@ name: Build
 on:
   workflow_dispatch:
   pull_request:
+  push:
 
 jobs:
   build:
@@ -22,6 +23,9 @@ jobs:
           if test ${{ matrix.os }} = macos-latest
           then echo "CPPFLAGS=-I$(brew --prefix)/include" >> $GITHUB_ENV
                echo "LDFLAGS=-L$(brew --prefix)/lib"      >> $GITHUB_ENV
+               brew install llvm
+               echo "$(brew --prefix llvm)/bin"           >> $GITHUB_PATH
+               echo "CXX=clang++"                         >> $GITHUB_ENV
           fi
       - name: Build frobby
         run: |
